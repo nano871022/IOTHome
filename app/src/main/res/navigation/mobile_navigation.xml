@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/mobile_navigation"
+    app:startDestination="@+id/nav_alert">
+
+    <fragment
+        android:id="@+id/nav_alert"
+        android:name="co.com.japl.iothome.ui.alert.AlertFragment"
+        android:label="@string/menu_alert"
+        tools:layout="@layout/fragment_alert" />
+
+    <fragment
+        android:id="@+id/nav_devices"
+        android:name="co.com.japl.iothome.ui.devices.DevicesFragment"
+        android:label="@string/menu_devices"
+        tools:layout="@layout/fragment_devices" >
+        <action
+            android:id="@+id/action_nav_devices_to_nav_device"
+            app:destination="@id/nav_device" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_device"
+        android:name="co.com.japl.iothome.ui.device.DeviceFragment"
+        android:label="@string/menu_device"
+        tools:layout="@layout/fragment_device" >
+        <action
+            android:id="@+id/action_nav_device_to_nav_devices"
+            app:destination="@id/nav_devices" />
+        <argument
+            android:name="arg_device_id"
+            app:argType="long"
+            android:defaultValue="-1L" />
+        <action
+            android:id="@+id/action_nav_device_to_nav_add_device"
+            app:destination="@id/nav_add_device" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_connection"
+        android:name="co.com.japl.iothome.ui.settings.connection.ConnectionFragment"
+        android:label="@string/menu_connection"
+        tools:layout="@layout/fragment_connection" />
+    <fragment
+        android:id="@+id/nav_add_device"
+        android:name="co.com.japl.iothome.ui.settings.addDevice.AddDeviceFragment"
+        android:label="@string/menu_add_device"
+        tools:layout="@layout/fragment_add_device" >
+        <argument
+            android:name="idDevice"
+            app:argType="long"
+            android:defaultValue="-1L" />
+    </fragment>
+    <fragment
+        android:id="@+id/nav_about"
+        android:name="co.com.japl.iothome.ui.settings.FragmentAbout"
+        android:label="@string/item_menu_about"
+        tools:layout="@layout/fragment_about" />
+</navigation>
