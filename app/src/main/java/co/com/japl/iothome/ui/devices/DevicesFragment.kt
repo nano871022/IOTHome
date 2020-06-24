@@ -70,10 +70,11 @@ class DevicesFragment : Fragment() {
             val adapter = ListDeviceAdapter(inflater,activity, list)
             listView.adapter = adapter
             listView.setOnItemClickListener(){adapter,view,position,id->
-                val itemPosition = adapter.getItemAtPosition(position)
+                val itemPosition = adapter.getItemAtPosition(position) as DeviceDTO
                 val itemId = adapter.getItemIdAtPosition(position)
-                //Toast.makeText(root.context,"Click over $itemPosition with id is $itemId",Toast.LENGTH_LONG).show()
-                val action = DevicesFragmentDirections.actionNavDevicesToNavDevice(itemId)
+                val label = view.findViewById<TextView>(R.id.item_field_device_label).text.toString()
+                //Toast.makeText(root.context,"Click over $itemPosition with id is $itemId and $label",Toast.LENGTH_LONG).show()
+                val action = DevicesFragmentDirections.actionNavDevicesToNavDevice(itemPosition._id)
                 view.findNavController().navigate(action)
             }
         }else{

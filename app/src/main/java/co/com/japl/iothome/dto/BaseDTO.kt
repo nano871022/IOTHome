@@ -1,5 +1,5 @@
 package co.com.japl.iothome.dto
 
 abstract class BaseDTO {
-    var _id : Long = 0
+    var _id : Long = -1
 }

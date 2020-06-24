@@ -2,6 +2,7 @@ package co.com.japl.iothome.ui.device
 
 import android.net.UrlQuerySanitizer
 import android.os.Bundle
+import android.os.Handler
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -21,6 +22,7 @@ import co.com.japl.iothome.specdb.DevicesSpecDB
 import co.com.japl.iothome.ui.custom.ListItemFieldDeviceAdapter
 import co.com.japl.iothome.util.ConnectionQueryDB
 import co.com.japl.iothome.util.DevicesQueryDB
+import co.com.japl.iothome.util.SpreadSheetDownload
 import co.com.japl.iothome.util.ValuePair
 
 class DeviceFragment : Fragment() {
@@ -54,7 +56,16 @@ class DeviceFragment : Fragment() {
             //Navigation.findNavController(it).navigate(R.id.nav_add_device)
         }
         loadFields(inflater,root)
+        loadSpreadSheet()
         return root
+    }
+
+    private fun loadSpreadSheet(){
+        Thread(
+            Runnable {
+        val response = SpreadSheetDownload(connect.token,dto.location).load()
+        print(response)
+            }).start()
     }
 
     private fun loadFields(inflater: LayoutInflater,root:View){

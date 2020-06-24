@@ -91,7 +91,7 @@ class ConnectionFragment : Fragment() {
     fun save(){
         try {
             loadData()
-            if(registry._id > 0){
+            if(registry._id > -1){
                 update()
             }else{
                 insert()

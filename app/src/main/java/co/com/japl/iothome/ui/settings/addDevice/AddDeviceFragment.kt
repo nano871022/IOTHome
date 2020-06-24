@@ -48,6 +48,7 @@ class AddDeviceFragment : Fragment() {
     fun load(dto:DeviceDTO){
         this.dto = dto
         root.findViewById<TextInputEditText>(R.id.field_name_device).setText(dto.name)
+        root.findViewById<TextInputEditText>(R.id.field_location_device).setText(dto.location)
         
     }
 
