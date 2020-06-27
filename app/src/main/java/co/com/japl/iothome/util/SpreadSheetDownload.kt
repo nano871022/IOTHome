@@ -2,39 +2,49 @@ package co.com.japl.iothome.util
 
 import android.content.Intent
 import java.io.*
+import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
 class SpreadSheetDownload (private val key : String,private val sheetName : String){
-    private val query = "SELECT a,b,c WHERE c < 200 AND x = 'yes'"
-    private val url = "https://docs.google.com/spreadsheets/d/$key/gviz/tq"
-    private val params = "tqx=out:csv&sheet=$sheetName&tq=$query"
+    private val query = "SELECT * ORDER BY A DESC LIMIT 1"
+    private val url = "https://docs.google.com/spreadsheets/d/$key/gviz/tq?tqx=out:csv&sheet=$sheetName&tq=$query"
 
     fun load():String?{
-        var obj = URL(url)
-        with(obj.openConnection() as HttpURLConnection) {
-            if (outputStream != null) {
+        var response = ""
+        try {
+            var obj = URL(url)
+            with(obj.openConnection() as HttpURLConnection) {
                 println("Sending 'GET' request to $url")
-                val osw = OutputStreamWriter(outputStream)
-                osw.write(params)
-                osw.flush()
-
                 println("Response code $responseCode")
                 BufferedReader(InputStreamReader(inputStream)).use {
-                    val response = StringBuffer()
-
                     var line = it.readLine()
+                    var heads = line.split(",")
                     while (line != null) {
-                        response.append(line)
                         line = it.readLine()
+                        var body = line.split(",")
+                        response += (build(heads,body))
                     }
                     it.close()
                     println("POST Response $response")
-                    return response.toString()
                 }
             }
+        }catch(e:Exception){
+            println(e)
         }
-        return null
+        return response
+    }
+
+    private fun build(head:List<String>,body:List<String>):String{
+        var i = 0
+        var line = ""
+        while(i < head.size){
+            if(i > 0) line += ","
+            line += head[i] + " : "+body[i]
+            i++
+        }
+        if(line.isNotEmpty())line = "{"+line+"}"
+        return line
     }
 
 }

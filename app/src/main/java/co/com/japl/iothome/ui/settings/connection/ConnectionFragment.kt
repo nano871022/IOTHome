@@ -16,6 +16,7 @@ import co.com.japl.iothome.def.IQueryDB
 import co.com.japl.iothome.dto.ConnectionDTO
 import co.com.japl.iothome.util.ConnectionQueryDB
 import com.google.android.material.textfield.TextInputEditText
+import kotlinx.android.synthetic.main.fragment_connection.*
 
 class ConnectionFragment : Fragment() {
 
@@ -57,9 +58,10 @@ class ConnectionFragment : Fragment() {
     }
 
     private fun loadData(){
+
         registry.name = root?.findViewById<TextInputEditText>(R.id.field_name)?.text.toString()
-        registry.email = root?.findViewById<TextInputEditText>(R.id.field_email)?.text.toString()
-        registry.token = root?.findViewById<TextInputEditText>(R.id.field_token)?.text.toString()
+        registry.email = field_email.text.toString()
+        registry.token = field_token.text.toString()
         registry.image = ""
     }
 

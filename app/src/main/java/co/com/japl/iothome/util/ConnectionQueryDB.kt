@@ -39,6 +39,7 @@ class ConnectionQueryDB (context:Context): SQLiteOpenHelper (context,DATABASE_NA
             put(table.COLUMN_NAME_IMAGE,connection.image)
         }
         val newRowId = db.insert(ConnectionSpecDB.Connection.TABLE_NAME,null,values)
+
         if(newRowId != -1L){
             connection._id = newRowId
             return true

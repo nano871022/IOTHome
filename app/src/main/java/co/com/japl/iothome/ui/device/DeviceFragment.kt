@@ -24,6 +24,7 @@ import co.com.japl.iothome.util.ConnectionQueryDB
 import co.com.japl.iothome.util.DevicesQueryDB
 import co.com.japl.iothome.util.SpreadSheetDownload
 import co.com.japl.iothome.util.ValuePair
+import org.json.JSONObject
 
 class DeviceFragment : Fragment() {
 
@@ -33,6 +34,7 @@ class DeviceFragment : Fragment() {
     private lateinit var queryConnection : IQueryDB<ConnectionDTO>
     private lateinit var dto : DeviceDTO
     private lateinit var connect : ConnectionDTO
+    private val listFields = arrayListOf<ValuePair>()
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
@@ -43,28 +45,36 @@ class DeviceFragment : Fragment() {
         val root = inflater.inflate(R.layout.fragment_device, container, false)
         queryDevice = DevicesQueryDB(root.context)
         queryConnection = ConnectionQueryDB(root.context)
-       /* val textView: TextView = root.findViewById(R.id.text_slideshow)
-        slideshowViewModel.text.observe(viewLifecycleOwner, Observer {
-            textView.text = it
-        })*/
         dto = queryDevice.selectById(args.argDeviceId)
         connect = queryConnection.selectAll().first()
+        loadSpreadSheet()
+        listFields()
         val edit = root.findViewById<Button>(R.id.button_edit_device)
         edit.setOnClickListener{
             var navigate = DeviceFragmentDirections.actionNavDeviceToNavAddDevice(args.argDeviceId)
             it.findNavController().navigate(navigate)
             //Navigation.findNavController(it).navigate(R.id.nav_add_device)
         }
+
         loadFields(inflater,root)
-        loadSpreadSheet()
         return root
     }
 
     private fun loadSpreadSheet(){
         Thread(
             Runnable {
-        val response = SpreadSheetDownload(connect.token,dto.location).load()
-        print(response)
+                val response = SpreadSheetDownload(connect.token,dto.location).load()
+                var list = arrayListOf<ValuePair>()
+                response?.let{
+                    var json = JSONObject(it)
+                    for( key in json.keys()){
+                        var vp = ValuePair()
+                        vp.key = key
+                        vp.value = json.getString(vp.key)
+                        list.add(vp)
+                    }
+                }
+                listFields.addAll(list)
             }).start()
     }
 
@@ -72,12 +82,13 @@ class DeviceFragment : Fragment() {
         var listFields = root.findViewById<ListView>(R.id.list_fields)
         val activity = this.activity
         if(activity != null) {
-            var adapter = ListItemFieldDeviceAdapter(inflater, activity, getListFields())
+            Thread.sleep(2000)
+            var adapter = ListItemFieldDeviceAdapter(inflater, activity, this.listFields)
             listFields.adapter = adapter
         }
     }
 
-    private fun getListFields():List<ValuePair>{
+    private fun listFields(){
         var list = arrayListOf<ValuePair>()
         dto.name.let {
             val valuePair = ValuePair()
@@ -91,7 +102,7 @@ class DeviceFragment : Fragment() {
             valuePair.value = it
             list.add(valuePair)
         }
-        return list
+        listFields.addAll(0,list)
     }
 
 

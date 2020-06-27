@@ -12,7 +12,7 @@ public class ConnectionQuery{
                 "${BaseColumns._ID} INTEGER PRIMARY KEY," +
                 "${ConnectionSpecDB.Connection.COLUMN_NAME_NAME} TEXT," +
                 "${ConnectionSpecDB.Connection.COLUMN_NAME_EMAIL} TEXT," +
-                "${ConnectionSpecDB.Connection.COLUMN_NAME_TOKEN} TEXT" +
+                "${ConnectionSpecDB.Connection.COLUMN_NAME_TOKEN} TEXT," +
                 "${ConnectionSpecDB.Connection.COLUMN_NAME_IMAGE} TEXT" +
                 ")"
     }
