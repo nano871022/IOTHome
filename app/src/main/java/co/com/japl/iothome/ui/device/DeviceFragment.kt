@@ -35,11 +35,13 @@ class DeviceFragment : Fragment() {
     private lateinit var dto : DeviceDTO
     private lateinit var connect : ConnectionDTO
     private val listFields = arrayListOf<ValuePair>()
+    private val query = "SELECT * ORDER BY A DESC LIMIT 1"
     override fun onCreateView(
             inflater: LayoutInflater,
             container: ViewGroup?,
             savedInstanceState: Bundle?
     ): View? {
+        
         slideshowViewModel =
                 ViewModelProviders.of(this).get(DeviceViewModel::class.java)
         val root = inflater.inflate(R.layout.fragment_device, container, false)
@@ -63,7 +65,7 @@ class DeviceFragment : Fragment() {
     private fun loadSpreadSheet(){
         Thread(
             Runnable {
-                val response = SpreadSheetDownload(connect.token,dto.location).load()
+                val response = SpreadSheetDownload(connect.token,dto.location,query).load()
                 var list = arrayListOf<ValuePair>()
                 response?.let{
                     var json = JSONObject(it)

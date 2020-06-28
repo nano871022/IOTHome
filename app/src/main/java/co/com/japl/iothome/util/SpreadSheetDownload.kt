@@ -6,8 +6,7 @@ import java.lang.Exception
 import java.net.HttpURLConnection
 import java.net.URL
 
-class SpreadSheetDownload (private val key : String,private val sheetName : String){
-    private val query = "SELECT * ORDER BY A DESC LIMIT 1"
+class SpreadSheetDownload (private val key : String,private val sheetName : String,private val query:String ){
     private val url = "https://docs.google.com/spreadsheets/d/$key/gviz/tq?tqx=out:csv&sheet=$sheetName&tq=$query"
 
     fun load():String?{
