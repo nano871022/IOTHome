@@ -12,5 +12,7 @@ interface IQueryDB<T : BaseDTO> {
 
     fun selectById(id : Long):T
 
+    fun select(selection:String,args:Array<String>):T
+
     fun close()
 }

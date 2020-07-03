@@ -11,4 +11,6 @@ object ConnectionSpecDB {
         const val COLUMN_NAME_TOKEN = "token"
         const val COLUMN_NAME_IMAGE = "image"
     }
+
+    const val SELECT_NAME = "name = ?"
 }

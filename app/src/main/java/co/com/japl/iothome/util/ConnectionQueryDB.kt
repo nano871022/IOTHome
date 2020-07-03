@@ -136,4 +136,28 @@ class ConnectionQueryDB (context:Context): SQLiteOpenHelper (context,DATABASE_NA
         }
         return dto
     }
+
+    override fun select(selection:String,args:Array<String>): ConnectionDTO {
+        var dto = ConnectionDTO()
+        val db = this.readableDatabase
+        val projection = arrayOf(BaseColumns._ID,table.COLUMN_NAME_NAME,table.COLUMN_NAME_EMAIL,table.COLUMN_NAME_TOKEN,table.COLUMN_NAME_IMAGE)
+        val sorOrder = "${table.COLUMN_NAME_NAME} DESC"
+        val cursor = db.query(table.TABLE_NAME,
+            projection,
+            selection,
+            args,
+            null,
+            null,
+            null)
+        with(cursor){
+            while (moveToNext()){
+                dto._id = getLong(getColumnIndexOrThrow(BaseColumns._ID))
+                dto.name = getString(getColumnIndexOrThrow(ConnectionSpecDB.Connection.COLUMN_NAME_NAME))
+                dto.email = getString(getColumnIndexOrThrow(ConnectionSpecDB.Connection.COLUMN_NAME_EMAIL))
+                dto.token = getString(getColumnIndexOrThrow(ConnectionSpecDB.Connection.COLUMN_NAME_TOKEN))
+                dto.image = getString(getColumnIndexOrThrow(ConnectionSpecDB.Connection.COLUMN_NAME_IMAGE))
+            }
+        }
+        return dto
+    }
 }

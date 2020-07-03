@@ -47,4 +47,6 @@
     <string name="item_menu_about">About</string>
     <string name="device_iot_description">APP Device IOT was created to management some device. the Devices was develop over arduino that it get data that is getting the sensors</string>
     <string name="button_edit_device">Edit</string>
+
+    <string name="records">Records</string>
 </resources>

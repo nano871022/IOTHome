@@ -11,6 +11,7 @@ class SpreadSheetDownload (private val key : String,private val sheetName : Stri
 
     fun load():String?{
         var response = ""
+        var arrayDetected = false
         try {
             var obj = URL(url)
             with(obj.openConnection() as HttpURLConnection) {
@@ -22,6 +23,10 @@ class SpreadSheetDownload (private val key : String,private val sheetName : Stri
                     while (line != null) {
                         line = it.readLine()
                         var body = line.split(",")
+                        if(response.isNotBlank()){
+                            response += ","
+                            arrayDetected = true
+                        }
                         response += (build(heads,body))
                     }
                     it.close()
@@ -30,6 +35,9 @@ class SpreadSheetDownload (private val key : String,private val sheetName : Stri
             }
         }catch(e:Exception){
             println(e)
+        }
+        if(arrayDetected){
+            response = "[$response]"
         }
         return response
     }

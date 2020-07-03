@@ -9,8 +9,23 @@
         android:id="@+id/nav_alert"
         android:name="co.com.japl.iothome.ui.alert.AlertFragment"
         android:label="@string/menu_alert"
-        tools:layout="@layout/fragment_alert" />
+        tools:layout="@layout/fragment_alert" >
+        <action
+            android:id="@+id/action_nav_alert_to_nav_records"
+            app:destination="@id/nav_records" />
+    </fragment>
 
+    <fragment
+        android:id="@+id/nav_records"
+        android:name="co.com.japl.iothome.ui.devices.AllDevicesFragment"
+        android:label="@string/records">
+        <action
+            android:id="@+id/action_nav_records_to_nav_alert"
+            app:destination="@id/nav_alert" />
+        <argument
+            android:name="nameKey"
+            app:argType="string" />
+    </fragment>
     <fragment
         android:id="@+id/nav_devices"
         android:name="co.com.japl.iothome.ui.devices.DevicesFragment"

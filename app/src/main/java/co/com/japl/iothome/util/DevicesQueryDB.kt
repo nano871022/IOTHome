@@ -137,4 +137,26 @@ class DevicesQueryDB (context:Context): SQLiteOpenHelper (context,DATABASE_NAME,
         }
         return dto
     }
+
+    override fun select(selection:String,args:Array<String>): DeviceDTO {
+        var dto = DeviceDTO()
+        val db  = this.writableDatabase
+        val projection = arrayOf(BaseColumns._ID,table.COLUMN_NAME_NAME,table.COLUMN_NAME_LOCATION,table.COLUMN_NAME_IMAGE)
+        val cursor = db.query(table.TABLE_NAME,
+            projection,
+            selection,
+            args,
+            null,
+            null,
+            null)
+        with(cursor){
+            while (moveToNext()){
+                dto._id = getLong(getColumnIndexOrThrow(BaseColumns._ID))
+                dto.name = getString(getColumnIndexOrThrow(table.COLUMN_NAME_NAME))
+                dto.location = getString(getColumnIndexOrThrow(table.COLUMN_NAME_LOCATION))
+                dto.image = getString(getColumnIndexOrThrow(table.COLUMN_NAME_IMAGE))
+            }
+        }
+        return dto
+    }
 }
